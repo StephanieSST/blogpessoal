@@ -33,12 +33,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setIsLoading(true)
         try {
             await login(`/usuarios/logar`, userLogin, setUsuario)
-            alert("Usuário logado com sucesso")
+            alert("Usuário autenticado com sucesso!")
             setIsLoading(false)
 
         } catch (error) {
             console.log(error)
-            alert("Dados do usuário inconsistentes")
+            alert("Dados do usuário inconsistentes!")
             setIsLoading(false)
         }
     }

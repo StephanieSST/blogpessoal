@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Usuario from '../../models/Usuario'
 import { cadastrarUsuario } from '../../services/Service'
@@ -8,7 +8,7 @@ function Cadastro() {
 
   let navigate = useNavigate()
 
-  const [confirmaSenha, setConfirmaSenha] = useState<string>("")
+  const [confirmaSenha, setConfirmaSenha] = useState<string>('');
 
   const [usuario, setUsuario] = useState<Usuario>({
     id: 0,
@@ -18,26 +18,19 @@ function Cadastro() {
     foto: ''
   })
 
-  const [usuarioResposta, setUsuarioResposta] = useState<Usuario>({
-    id: 0,
-    nome: '',
-    usuario: '',
-    senha: '',
-    foto: ''
-  })
-
   useEffect(() => {
-    if (usuarioResposta.id !== 0) {
-      back()
+    if (usuario.id !== 0) {
+      retornar()
     }
-  }, [usuarioResposta])
+  }, [usuario])
 
-  function back() {
+  function retornar() {
     navigate('/login')
   }
 
   function handleConfirmarSenha(e: ChangeEvent<HTMLInputElement>) {
-    setConfirmaSenha(e.target.value)
+    setConfirmaSenha(e.target.value);
+    console.log(confirmaSenha)
   }
 
   function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
@@ -47,13 +40,13 @@ function Cadastro() {
     })
   }
 
-  async function cadastrarNovoUsuario(e: ChangeEvent<HTMLFormElement>) {
+  async function cadastrarNovoUsuario(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
     if (confirmaSenha === usuario.senha && usuario.senha.length >= 8) {
 
       try {
-        await cadastrarUsuario(`/usuarios/cadastrar`, usuario, setUsuarioResposta)
+        await cadastrarUsuario(`/usuarios/cadastrar`, usuario, setUsuario)
         alert('Usuário cadastrado com sucesso')
 
       } catch (error) {
@@ -66,6 +59,8 @@ function Cadastro() {
       setConfirmaSenha("")                  
     }
   }
+
+  console.log(JSON.stringify(usuario))
 
   return (
     <>
@@ -134,7 +129,7 @@ function Cadastro() {
             />
           </div>
           <div className="flex justify-around w-full gap-8">
-            <button className='rounded text-white bg-red-400 hover:bg-red-700 w-1/2 py-2' onClick={back}>
+            <button className='rounded text-white bg-red-400 hover:bg-red-700 w-1/2 py-2' onClick={retornar}>
               Cancelar
             </button>
             <button className='rounded text-white bg-indigo-400 hover:bg-indigo-900 w-1/2 py-2' type='submit'>

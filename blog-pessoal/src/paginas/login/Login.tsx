@@ -14,9 +14,7 @@ function Login() {
     {} as UsuarioLogin
   );
 
-  const { usuario, handleLogin } = useContext(AuthContext);
-
-  const {isLoading} = useContext(AuthContext) 
+  const { usuario, handleLogin, isLoading } = useContext(AuthContext);
 
   useEffect(() => {
     if (usuario.token !== "") {
@@ -27,7 +25,7 @@ function Login() {
 function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
   setUsuarioLogin({
       ...usuarioLogin,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
   })
 }
 
@@ -35,6 +33,8 @@ function login(e: ChangeEvent<HTMLFormElement>) {
   e.preventDefault()
   handleLogin(usuarioLogin)
 }
+
+console.log(JSON.stringify(usuarioLogin));
 
   return (
     <>

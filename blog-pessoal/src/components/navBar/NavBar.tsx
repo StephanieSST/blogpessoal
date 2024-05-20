@@ -7,12 +7,12 @@ import { AuthContext } from '../../contexts/AuthContext'
 function Navbar() {
   let navigate = useNavigate()
 
-  const { usuario, handleLogout } = useContext(AuthContext)
+  const { handleLogout } = useContext(AuthContext)
 
   function logout() {
       handleLogout()
-      alert('Usuário deslogado com sucesso')
-      navigate('/login')
+      alert('Usuário desconectado com sucesso!')
+      navigate('/')
   }
 
   let navbarComponent
