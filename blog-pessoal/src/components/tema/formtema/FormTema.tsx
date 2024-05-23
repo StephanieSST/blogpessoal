@@ -24,7 +24,7 @@ function FormTema() {
             })
         } catch (error: any) {
             if (error.toString().includes('401')) {
-                alert('O token expirou!')
+                alert('Token expirado!')
                 handleLogout()
             }
         }
@@ -32,7 +32,7 @@ function FormTema() {
 
     useEffect(() => {
         if (token === '') {
-            alert('Você precisa estar logado!')
+            alert('Necessário fazer login!')
             navigate('/')
         }
     }, [token])
@@ -67,7 +67,6 @@ function FormTema() {
                 alert('Tema atualizado com sucesso!');
             } catch (error: any) {
                 if (error.toString().includes('401')) {
-                    alert('O token Expirou!')
                     handleLogout()
                 } else {
                     alert('Erro ao atualizar o Tema!')
@@ -83,7 +82,6 @@ function FormTema() {
                 alert('Tema cadastrado com sucesso!');
             } catch (error: any) {
                 if (error.toString().includes('401')) {
-                    alert('O token Expirou!')
                     handleLogout()
                 } else {
                     alert('Erro ao cadastrar o Tema!')
@@ -111,7 +109,7 @@ function FormTema() {
                     <label htmlFor="descricao">Descrição do Tema</label>
                     <input
                         type="text"
-                        placeholder="Descreva aqui seu tema"
+                        placeholder="Digite seu tema"
                         name='descricao'
                         className="border-2 border-slate-700 rounded p-2"
                         value={tema.descricao}
@@ -121,7 +119,7 @@ function FormTema() {
                 <button
                     className="rounded text-slate-100 bg-indigo-400 
                                hover:bg-indigo-800 w-1/2 py-2 mx-auto flex justify-center"
-                    type="submit">
+                    type="submit"> 
 
                     {isLoading ? <RotatingLines
                         strokeColor="white"

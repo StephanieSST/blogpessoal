@@ -24,7 +24,7 @@ function DeletarTema() {
             })
         } catch (error: any) {
             if (error.toString().includes('401')) {
-                alert('O token expirou!')
+                alert('Token expirado!')
                 handleLogout()
             }
         }
@@ -32,7 +32,7 @@ function DeletarTema() {
 
     useEffect(() => {
         if (token === '') {
-            alert('Você precisa estar logado!')
+            alert('Necessário fazer login!')
             navigate('/')
         }
     }, [token])
@@ -54,10 +54,10 @@ function DeletarTema() {
             await deletar(`/temas/${id}`, {
                 headers: { Authorization: token }
             })
-            alert('O Tema foi apagado com sucesso!')
+            alert('Tema apagado com sucesso!')
         } catch (error: any) {
             if (error.toString().includes('401')) {
-                alert('O token expirou!')
+                alert('Token expirado!')
                 handleLogout()
             }else{
                 alert('Erro ao Excluir o Tema!')
@@ -72,7 +72,7 @@ function DeletarTema() {
         <div className='container w-1/3 mx-auto'>
             <h1 className='text-4xl text-center my-4'>Deletar tema</h1>
             <p className='text-center font-semibold mb-4'>
-                Você tem certeza de que deseja apagar o tema a seguir?</p>
+                Você tem certeza de que deseja apagar o tema?</p>
             <div className='border flex flex-col rounded-2xl overflow-hidden justify-between'>
                 <header 
                     className='py-2 px-6 bg-indigo-600 text-white font-bold text-2xl'>
