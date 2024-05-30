@@ -4,7 +4,7 @@ import { AuthContext } from '../../../contexts/AuthContext';
 import Postagem from '../../../models/Postagem';
 import Tema from '../../../models/Tema';
 import { buscar, atualizar, cadastrar } from '../../../services/Service';
-import { toastAlerta } from '../../../utils/ToastAlerta';
+import { ToastAlerta } from '../../../utils/ToastAlerta';
 
 
 function FormularioPostagem() {
@@ -57,7 +57,7 @@ function FormularioPostagem() {
 
   useEffect(() => {
     if (token === '') {
-      toastAlerta('Necessário realizar o login!', 'info');
+      ToastAlerta('Necessário realizar o login!', 'info');
       navigate('/');
     }
   }, [token]);
@@ -103,14 +103,14 @@ function FormularioPostagem() {
             Authorization: token,
           },
         });
-        toastAlerta('Postagem atualizada com sucesso!', 'sucesso');
+        ToastAlerta('Postagem atualizada com sucesso!', 'sucesso');
         retornar();
       } catch (error: any) {
         if (error.toString().includes('401')) {
-          toastAlerta('Token expirado! Realizar login novamente!', 'info')
+          ToastAlerta('Token expirado! Realizar login novamente!', 'info')
           handleLogout()
         } else {
-          toastAlerta('Erro ao atualizar a Postagem!', 'erro');
+          ToastAlerta('Erro ao atualizar a Postagem!', 'erro');
         }
       }
     } else {
@@ -121,14 +121,14 @@ function FormularioPostagem() {
           },
         });
 
-        toastAlerta('Postagem cadastrada com sucesso!', 'sucesso');
+        ToastAlerta('Postagem cadastrada com sucesso!', 'sucesso');
         retornar();
       } catch (error: any) {
         if (error.toString().includes('401')) {
-          toastAlerta('Token expirado! Realizar login novamente!', 'info')
+          ToastAlerta('Token expirado! Realizar login novamente!', 'info')
           handleLogout()
         } else {
-          toastAlerta('Erro ao cadastrar a Postagem!', 'erro');
+          ToastAlerta('Erro ao cadastrar a Postagem!', 'erro');
         }
       }
     }
