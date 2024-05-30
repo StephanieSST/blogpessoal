@@ -4,6 +4,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import Tema from "../../../models/Tema";
 import { buscar, deletar } from "../../../services/Service";
 import { RotatingLines } from "react-loader-spinner";
+import { toastAlerta } from "../../../utils/ToastAlerta";
 
 function DeletarTema() {
 
@@ -24,7 +25,7 @@ function DeletarTema() {
             })
         } catch (error: any) {
             if (error.toString().includes('401')) {
-                alert('Token expirado!')
+                toastAlerta('Token expirado!', 'info')
                 handleLogout()
             }
         }
@@ -32,7 +33,7 @@ function DeletarTema() {
 
     useEffect(() => {
         if (token === '') {
-            alert('Necessário fazer login!')
+            toastAlerta('Necessário fazer login!', 'info')
             navigate('/')
         }
     }, [token])
@@ -57,10 +58,10 @@ function DeletarTema() {
             alert('Tema excluido com sucesso!')
         } catch (error: any) {
             if (error.toString().includes('401')) {
-                alert('Token expirado!')
+                toastAlerta('Token expirado!', 'info')
                 handleLogout()
             }else{
-                alert('Erro ao Excluir o Tema!')
+                toastAlerta('Erro ao Excluir o Tema!', 'erro')
             }
         }
 

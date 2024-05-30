@@ -4,6 +4,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import Tema from "../../../models/Tema";
 import { atualizar, buscar, cadastrar } from "../../../services/Service";
 import { RotatingLines } from "react-loader-spinner";
+import { toastAlerta } from "../../../utils/ToastAlerta";
 
 function FormTema() {
 
@@ -24,7 +25,7 @@ function FormTema() {
             })
         } catch (error: any) {
             if (error.toString().includes('401')) {
-                alert('Token expirado!')
+                toastAlerta('Token expirado!', 'info')
                 handleLogout()
             }
         }
@@ -32,7 +33,7 @@ function FormTema() {
 
     useEffect(() => {
         if (token === '') {
-            alert('Necessário fazer login!')
+            toastAlerta('Necessário fazer login!', 'info')
             navigate('/')
         }
     }, [token])
@@ -64,12 +65,12 @@ function FormTema() {
                 await atualizar(`/temas`, tema, setTema, {
                     headers: { 'Authorization': token }
                 });
-                alert('Tema atualizado com sucesso!');
+                toastAlerta('Tema atualizado com sucesso!', 'sucesso');
             } catch (error: any) {
                 if (error.toString().includes('401')) {
                     handleLogout()
                 } else {
-                    alert('Erro ao atualizar o Tema!')
+                    toastAlerta('Erro ao atualizar o Tema!', 'erro')
                 }
             }
 
@@ -79,12 +80,12 @@ function FormTema() {
                 await cadastrar(`/temas`, tema, setTema, {
                     headers: { 'Authorization': token }
                 });
-                alert('Tema cadastrado com sucesso!');
+                toastAlerta('Tema cadastrado com sucesso!', 'sucesso');
             } catch (error: any) {
                 if (error.toString().includes('401')) {
                     handleLogout()
                 } else {
-                    alert('Erro ao cadastrar o Tema!')
+                    toastAlerta('Erro ao cadastrar o Tema!', 'erro')
                 }
             }
 
