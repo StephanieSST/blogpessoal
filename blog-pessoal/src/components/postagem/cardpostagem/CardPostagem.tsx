@@ -7,7 +7,7 @@ interface CardPostagemProps {
 
 function CardPostagem({post}: CardPostagemProps) {
   return (
-    <div className='border-slate-900 border flex flex-col rounded overflow-hidden justify-between'>
+    <div className='border-slate-200 border flex flex-col rounded-s-lg overflow-hidden justify-between'>
       <div>
         <div className="flex w-full bg-indigo-400 py-2 px-4 items-center gap-4">
           <img src={post.usuario?.foto} className='h-12 rounded-full' alt="" />
@@ -24,10 +24,10 @@ function CardPostagem({post}: CardPostagemProps) {
         </div>
       </div>
       <div className="flex">
-      <Link to={`/editarPostagem/${post.id}`} className='w-full text-white bg-indigo-400 hover:bg-indigo-800 flex items-center justify-center py-2'>
+      <Link to={`/editarPostagem/${post.id}`} className='w-full text-white bg-indigo-400 hover:bg-indigo-500 flex items-center justify-center py-2'>
           <button>Editar</button>
         </Link>
-        <Link to={`/deletarPostagem/${post.id}`} className='text-white bg-red-400 hover:bg-red-700 w-full flex items-center justify-center'>
+        <Link to={`/deletarPostagem/${post.id}`} className='text-white bg-red-400 hover:bg-red-500 w-full flex items-center justify-center'>
           <button>Deletar</button>
         </Link>
       </div>

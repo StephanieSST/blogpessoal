@@ -7,4 +7,4 @@ export default interface Usuario {
   foto: string;
   senha: string;
   postagem?: Postagem | null;
-}
+}''

@@ -54,7 +54,7 @@ function DeletarTema() {
             await deletar(`/temas/${id}`, {
                 headers: { Authorization: token }
             })
-            alert('Tema apagado com sucesso!')
+            alert('Tema excluido com sucesso!')
         } catch (error: any) {
             if (error.toString().includes('401')) {
                 alert('Token expirado!')

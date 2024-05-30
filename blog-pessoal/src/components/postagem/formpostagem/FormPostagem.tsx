@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthContext';
 import Postagem from '../../../models/Postagem';
@@ -56,7 +56,7 @@ function FormularioPostagem() {
 
   useEffect(() => {
     if (token === '') {
-      alert('Você precisa estar logado');
+      alert('Necessário realizar o login!');
       navigate('/');
     }
   }, [token]);
@@ -102,14 +102,14 @@ function FormularioPostagem() {
             Authorization: token,
           },
         });
-        alert('Postagem atualizada com sucesso');
+        alert('Postagem atualizada com sucesso!');
         retornar();
       } catch (error: any) {
-        if (error.toString().includes('403')) {
-          alert('O token expirou, favor logar novamente')
+        if (error.toString().includes('401')) {
+          alert('Token expirado! Realizar login novamente!')
           handleLogout()
         } else {
-          alert('Erro ao atualizar a Postagem');
+          alert('Erro ao atualizar a Postagem!');
         }
       }
     } else {
@@ -120,14 +120,14 @@ function FormularioPostagem() {
           },
         });
 
-        alert('Postagem cadastrada com sucesso');
+        alert('Postagem cadastrada com sucesso!');
         retornar();
       } catch (error: any) {
-        if (error.toString().includes('403')) {
-          alert('O token expirou, favor logar novamente')
+        if (error.toString().includes('401')) {
+          alert('Token expirado! Realizar login novamente!')
           handleLogout()
         } else {
-          alert('Erro ao cadastrar a Postagem');
+          alert('Erro ao cadastrar a Postagem!');
         }
       }
     }
