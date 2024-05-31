@@ -31,15 +31,21 @@ function ListaPostagens() {
       });
     } catch (error: any) {
       if (error.toString().includes('401')) {
-        ToastAlerta('Token expirado!, efetuar login novamente!', 'info')
         handleLogout()
       }
     }
   }
 
   useEffect(() => {
-    buscarPostagens();
-  }, [postagens.length]);
+    if (token === '') {
+      ToastAlerta('Necessário efetuar o login!', 'info')
+      navigate('/')
+    }
+  }, [token]);
+
+  useEffect(() => {
+    buscarPostagens()
+}, [postagens.length])
 
   return (
     <>
@@ -55,7 +61,7 @@ function ListaPostagens() {
       )}
       <div className='container w-11/12 mx-auto my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {postagens.map((postagem) => (
-          <CardPostagem key={postagem.id} post={postagem} />
+          <CardPostagem key={postagem.id} postagem={postagem} />
         ))}
       </div>
     </>

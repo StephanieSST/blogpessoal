@@ -5,56 +5,62 @@ import Postagem from '../../../models/Postagem';
 import Tema from '../../../models/Tema';
 import { buscar, atualizar, cadastrar } from '../../../services/Service';
 import { ToastAlerta } from '../../../utils/ToastAlerta';
+import { RotatingLines } from 'react-loader-spinner';
 
 
-function FormularioPostagem() {
-  let navigate = useNavigate();
+function FormPostagem() {
 
-  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
-  const { usuario, handleLogout } = useContext(AuthContext);
-  const token = usuario.token;
-
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [temas, setTemas] = useState<Tema[]>([]);
 
   const [tema, setTema] = useState<Tema>({
     id: 0,
     descricao: '',
   });
+   const [postagem, setPostagem] = useState<Postagem>({} as Postagem);
 
-  const [postagem, setPostagem] = useState<Postagem>({
-    id: 0,
-    titulo: '',
-    texto: '',
-    data: '',
-    tema: null,
-    usuario: null,
-  });
+  const { id } = useParams<{ id: string }>();
 
-  async function buscarPostagemPorId(id: string) {
+  const { usuario, handleLogout } = useContext(AuthContext);
+  const token = usuario.token;
+
+async function buscarPostagemPorId(id: string) {
+  try {
     await buscar(`/postagens/${id}`, setPostagem, {
-      headers: {
-        Authorization: token,
-      },
+      headers: { 'Authorization': token },
     });
-  }
-
+  } catch (error: any) {
+     if (error.toString().includes('401')) {
+      handleLogout()
+     }
+    }
+}
   async function buscarTemaPorId(id: string) {
-    await buscar(`/temas/${id}`, setTema, {
-      headers: {
-        Authorization: token,
-      },
-    });
-  }
+   try {
+     await buscar(`/temas/${id}`, setTema, {
+      headers: { 'Authorization': token },
+     });
+    } catch (error: any) {
+       if (error.toString().includes('401')) {
+        handleLogout()
+       }
+      }
+   }   
 
   async function buscarTemas() {
-    await buscar('/temas', setTemas, {
-      headers: {
-        Authorization: token,
-      },
-    });
-  }
 
+    try {
+     await buscar('/temas', setTemas, {
+      headers: {'Authorization': token},
+     });
+    } catch (error: any) {
+       if (error.toString().includes('401')) {
+           handleLogout()
+       }
+      }
+  }
   useEffect(() => {
     if (token === '') {
       ToastAlerta('Necessário realizar o login!', 'info');
@@ -66,7 +72,6 @@ function FormularioPostagem() {
     buscarTemas();
     if (id !== undefined) {
       buscarPostagemPorId(id);
-      console.log(tema);
 
     }
   }, [id]);
@@ -93,21 +98,17 @@ function FormularioPostagem() {
 
   async function gerarNovaPostagem(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    console.log({ postagem });
+    setIsLoading(true)
 
     if (id != undefined) {
       try {
         await atualizar(`/postagens`, postagem, setPostagem, {
-          headers: {
-            Authorization: token,
-          },
+          headers: { 'Authorization': token },
         });
         ToastAlerta('Postagem atualizada com sucesso!', 'sucesso');
-        retornar();
+      
       } catch (error: any) {
         if (error.toString().includes('401')) {
-          ToastAlerta('Token expirado! Realizar login novamente!', 'info')
           handleLogout()
         } else {
           ToastAlerta('Erro ao atualizar a Postagem!', 'erro');
@@ -117,30 +118,31 @@ function FormularioPostagem() {
       try {
         await cadastrar(`/postagens`, postagem, setPostagem, {
           headers: {
-            Authorization: token,
+            'Authorization': token,
           },
         });
 
         ToastAlerta('Postagem cadastrada com sucesso!', 'sucesso');
-        retornar();
+   
       } catch (error: any) {
         if (error.toString().includes('401')) {
-          ToastAlerta('Token expirado! Realizar login novamente!', 'info')
           handleLogout()
         } else {
           ToastAlerta('Erro ao cadastrar a Postagem!', 'erro');
         }
       }
     }
+    setIsLoading(false)
+    retornar()
   }
 
   const carregandoTema = tema.descricao === '';
 
   return (
     <div className="container flex flex-col mx-auto items-center">
-      <h1 className="text-4xl text-center my-8">{id !== undefined ? 'Editar Postagem' : 'Cadastrar Postagem'}</h1>
+      <h1 className="text-4xl text-center my-8">{id !== undefined ? 'Atualizar Postagem' : 'Cadastrar Postagem'}</h1>
 
-      <form onSubmit={gerarNovaPostagem} className="flex flex-col w-1/2 gap-4">
+      <form className="flex flex-col w-1/2 gap-4" onSubmit={gerarNovaPostagem}>
         <div className="flex flex-col gap-2">
           <label htmlFor="titulo">Titulo da postagem</label>
           <input
@@ -177,11 +179,19 @@ function FormularioPostagem() {
           </select>
         </div>
         <button disabled={carregandoTema} type='submit' className='rounded disabled:bg-slate-200 bg-indigo-400 hover:bg-indigo-800 text-white font-bold w-1/2 mx-auto block py-2'>
-          {carregandoTema ? <span>Carregando</span> : id !== undefined ? 'Editar' : 'Cadastrar'}
+        {isLoading ? 
+          <RotatingLines
+             strokeColor="white"
+             strokeWidth="5"
+             animationDuration="0.75"
+             width="24"
+             visible={true}
+         /> : <span>{id !== undefined ? 'Atualizar' : 'Cadastrar'}</span>
+        }
         </button>
       </form>
     </div>
   );
 }
 
-export default FormularioPostagem;
+export default FormPostagem;

@@ -98,7 +98,7 @@ function FormTema() {
     console.log(JSON.stringify(tema))
 
     return (
-        <div className="container flex flex-col items-center justify-center mx-auto">
+        <div className="container flex flex-col items-center justify-center mx-auto py-24">
             <h1 className="text-4xl text-center my-8">
                 {id === undefined ? 'Cadastrar Tema' : 'Editar Tema'}
             </h1>
@@ -112,14 +112,14 @@ function FormTema() {
                         type="text"
                         placeholder="Digite seu tema"
                         name='descricao'
-                        className="border-2 border-slate-700 rounded p-2"
+                        className="border-2 border-slate-700 rounded-s-lg p-2"
                         value={tema.descricao}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
                     />
                 </div>
                 <button
                     className="rounded text-slate-100 bg-indigo-400 
-                               hover:bg-indigo-800 w-1/2 py-2 mx-auto flex justify-center"
+                               hover:bg-indigo-800 w-1/2 py-2 mx-auto flex justify-center my-6"
                     type="submit"> 
 
                     {isLoading ? <RotatingLines

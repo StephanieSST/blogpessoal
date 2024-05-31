@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import homeLogo from '../../assets/home.png'
 import ListaPostagens from '../../components/postagem/listapostagem/ListaPostagens';
 import ModalPostagem from '../../components/postagem/modalpostagem/ModalPostagem';
@@ -14,12 +15,14 @@ function Home() {
   
               <div className="flex justify-around gap-4">
               <ModalPostagem />
-                <button className='rounded bg-white text-blue-800 py-2 px-4'>Ver postagens</button>
+             
+      <Link to={'/postagens'} ><button className='border rounded bg-white text-indigo-800 py-2 px-4  hover:bg-indigo-900 hover:text-white'>Ver postagens</button></Link>
+     
               </div>
             </div>
   
             <div className="flex justify-center ">
-              <img src={homeLogo} alt="" className='w-2/3' />
+              <img src={homeLogo} alt="Imagem Página Home" className='w-2/3' />
       
             </div>
           </div>
